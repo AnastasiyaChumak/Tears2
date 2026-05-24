@@ -1,14 +1,24 @@
 "use client";
 
 import { useState } from "react";
-
 import { api } from "~/trpc/react";
+import type { inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "~/server/api/root";
 
-export function LatestPost() {
-  const [latestPost] = api.post.getLatest.useSuspenseQuery();
+type RouterOutput = inferRouterOutputs<AppRouter>;
+type AllPosts = RouterOutput["post"]["getAll"];
+type Post = AllPosts[number];
 
-  const utils = api.useUtils();
+type Props = {
+  posts: AllPosts;
+  latestPost: Post | null;
+};
+
+
+export function ClientContent({ posts, latestPost }: Props) {
   const [name, setName] = useState("");
+  const utils = api.useUtils();
+
   const createPost = api.post.create.useMutation({
     onSuccess: async () => {
       await utils.post.invalidate();
@@ -18,17 +28,21 @@ export function LatestPost() {
 
   return (
     <div className="w-full max-w-xs">
-      {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
-      ) : (
-        <p>You have no posts yet.</p>
-      )}
+      <div className="mb-4">
+        <h2>Latest Post</h2>
+        {latestPost ? (
+          <p className="truncate">{latestPost.name}</p>
+        ) : (
+          <p>No posts yet</p>
+        )}
+      </div>
+
       <form
         onSubmit={(e) => {
           e.preventDefault();
           createPost.mutate({ name });
         }}
-        className="flex flex-col gap-2"
+        className="flex flex-col gap-2 mb-4"
       >
         <input
           type="text"
@@ -45,6 +59,13 @@ export function LatestPost() {
           {createPost.isPending ? "Submitting..." : "Submit"}
         </button>
       </form>
+
+      <div>
+        <h1>All Posts</h1>
+        {posts.map((p) => (
+          <div key={p.id}>{p.name}</div>
+        ))}
+      </div>
     </div>
   );
 }

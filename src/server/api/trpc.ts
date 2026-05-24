@@ -12,7 +12,7 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 
 import { auth } from "~/server/auth";
-import { db } from "~/server/db";
+import { db } from "~/server/prisma";
 
 /**
  * 1. CONTEXT
@@ -131,3 +131,5 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+  
