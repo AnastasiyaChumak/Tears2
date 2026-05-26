@@ -47,6 +47,23 @@ function dbGameToDbGameEntity(
                 field: game.field,
             } satisfies GameFinished;
     }
-
 }
-export const gameRepository = { gameList };
+
+async function gameCreate(name: string): Promise<GameIdle> {
+    const game = await prisma.game.create({
+        data: {
+            name,
+            status: "idle",
+            field: null,
+            type: "tic-tac-toe",
+        },
+        include: {
+            players: true,
+            winner: true,
+        },
+    });
+
+    return dbGameToDbGameEntity(game) as GameIdle;
+}
+
+export const gameRepository = { gameList, gameCreate };
