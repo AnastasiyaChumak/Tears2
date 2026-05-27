@@ -2,30 +2,31 @@
 
 import { Button } from "~/shared/ui/button";
 import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
+
+
 
 export function GameActionButton() {
-  const createGameMutation = api.game.create.useMutation({
-    onSuccess: (game: any) => {
-      alert(`Game created with ID: ${game?.id}`);
-      window.location.reload();
-    },
-    onError: (error: any) => {
-      alert(`${error.message}`);
-    },
-  });
+    const utils = api.useUtils();
+    const router = useRouter();
+    const createGameMutation = api.game.create.useMutation({
+        onSuccess: () => {
+            router.refresh();
+        },
+        onError: (error: Error) => {
+            alert(error.message);
+        },
+    });
 
-  const handleCreateGame = () => {
-    createGameMutation.mutate({ title: "New Game" });
-  };
-
-  return (
-    <Button 
-      onClick={handleCreateGame}
-      disabled={createGameMutation.isPending}
-    >
-      {createGameMutation.isPending ? "Creating..." : "Create Game"}
-    </Button>
-  );
+    return (
+        <Button
+            className="object-center w-1/5 mx-auto mt-10"
+            onClick={() => createGameMutation.mutate({ name: "New Game", type: "default" })}
+            disabled={createGameMutation.isPending}
+        >
+            {createGameMutation.isPending ? "Creating..." : "Create Game"}
+        </Button>
+    );
 }
 
 export default GameActionButton;

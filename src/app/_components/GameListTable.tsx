@@ -5,7 +5,7 @@ import { de } from "zod/v4/locales";
 export default async function GameListTable() {
     const games = await gameRepository.gameList();
     return ( 
-        <div className="bg-center w-lg 50px-4">
+        <div className="bg-center w-2/5 mx-auto mt-10 border-2 border-solid rounded-lg p-4">
         <Table>
             <TableCaption>Games</TableCaption>
             <TableHeader>

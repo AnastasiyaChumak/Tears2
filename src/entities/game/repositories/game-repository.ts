@@ -27,6 +27,7 @@ function dbGameToDbGameEntity(
                 players: game.players,
                 status: game.status,
                 field: game.field,
+                rating: game.rating,
             } satisfies GameIdle;
 
 
