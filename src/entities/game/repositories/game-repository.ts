@@ -15,6 +15,22 @@ async function gameList(): Promise<Game[]> {
     return games.map(dbGameToDbGameEntity);
 }
 
+async function gameCreate(name: string, type: string): Promise<GameIdle> {
+    const game = await prisma.game.create({
+        data: {
+            name,
+            type,
+            status: "idle",
+        },
+        include: {
+            winner: true,
+            players: true,
+        },
+    });
+
+    return dbGameToDbGameEntity(game) as GameIdle;
+}
+
 function dbGameToDbGameEntity(
     game: Prisma.GameGetPayload<{
         include: { players: true; winner: true }
@@ -27,7 +43,6 @@ function dbGameToDbGameEntity(
                 players: game.players,
                 status: game.status,
                 field: game.field,
-                rating: game.rating,
             } satisfies GameIdle;
 
 
@@ -48,23 +63,6 @@ function dbGameToDbGameEntity(
                 field: game.field,
             } satisfies GameFinished;
     }
-}
-
-async function gameCreate(name: string): Promise<GameIdle> {
-    const game = await prisma.game.create({
-        data: {
-            name,
-            status: "idle",
-            field: null,
-            type: "tic-tac-toe",
-        },
-        include: {
-            players: true,
-            winner: true,
-        },
-    });
-
-    return dbGameToDbGameEntity(game) as GameIdle;
 }
 
 export const gameRepository = { gameList, gameCreate };

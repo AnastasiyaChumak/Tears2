@@ -4,8 +4,6 @@ import { Button } from "~/shared/ui/button";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 
-
-
 export function GameActionButton() {
     const utils = api.useUtils();
     const router = useRouter();
@@ -13,17 +11,28 @@ export function GameActionButton() {
         onSuccess: () => {
             router.refresh();
         },
-        onError: (error: Error) => {
+        onError: (error: { message: string }) => {
             alert(error.message);
         },
     });
 
+    const createUserMutation = api.user.create.useMutation({
+        onSuccess: () => {
+            router.refresh();
+        },
+        onError: (error: { message: string }) => {
+            alert(error.message);
+        },
+    },
+    );
+
+    const handleClick = () => {
+        createGameMutation.mutate({ name: "New Game", type: "default" });
+        createUserMutation.mutate({ name: "New User", type: "default" });
+    };
+
     return (
-        <Button
-            className="object-center w-1/5 mx-auto mt-10"
-            onClick={() => createGameMutation.mutate({ name: "New Game", type: "default" })}
-            disabled={createGameMutation.isPending}
-        >
+        <Button onClick={handleClick} disabled={createGameMutation.isPending}>
             {createGameMutation.isPending ? "Creating..." : "Create Game"}
         </Button>
     );

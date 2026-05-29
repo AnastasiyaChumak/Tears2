@@ -1,15 +1,15 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { gameRepository } from "~/entities/game/repositories/game-repository";
+import { userRepository } from "~/entities/user/repositories/user-repository";
 
-export const gameRouter = createTRPCRouter({
+export const userRouter = createTRPCRouter({
     list: publicProcedure.query(() => {
-        return gameRepository.gameList();
+        return userRepository.userList();
     }),
 
     create: publicProcedure
         .input(z.object({ name: z.string(), type: z.string() }))
         .mutation(({ input }) => {
-            return gameRepository.gameCreate(input.name, input.type);
+            return userRepository.userCreate(input.name, input.type);
         }),
 });
