@@ -5,7 +5,6 @@ import bcrypt from "bcryptjs";
 import { dbAuth } from "~/server/prisma-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
@@ -42,13 +41,26 @@ export const authConfig = {
 
         if (!valid) return null;
 
-        return { id: user.id, name: user.login, email: user.email };
+        return { id: user.id, login: user.login, email: user.email };
       },
     }),
   ],
   adapter: PrismaAdapter(dbAuth),
   session: { strategy: "jwt" },
   callbacks: {
+    async signIn({ user, account }) {
+      if (!user.email) return false;
+      return true;
+    },
+    async jwt({ token, user, account, profile }) {
+      if (account?.provider === "google" && profile?.name && token.email) {
+        await dbAuth.user.updateMany({
+          where: { email: token.email, login: null },
+          data: { login: profile.name as string },
+        });
+      }
+      return token;
+    },
     session: ({ session, token }) => ({
       ...session,
       user: {

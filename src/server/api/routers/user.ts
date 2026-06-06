@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { userRepository } from "~/entities/user/repositories/user-repository";
+import { createTRPCRouter, publicProcedure, protectedProcedure } from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
     create: publicProcedure
@@ -8,4 +8,11 @@ export const userRouter = createTRPCRouter({
         .mutation(({ input }) => {
             return userRepository.userCreate(input.login, input.password);
         }),
+
+    updateRating: protectedProcedure
+        .input(z.object({ delta: z.number() }))
+        .mutation(async ({ ctx, input }) => {
+            return userRepository.userUpdateRating(ctx.session.user.id, input.delta);
+        }),
 });
+

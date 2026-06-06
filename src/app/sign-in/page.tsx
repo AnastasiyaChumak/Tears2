@@ -60,7 +60,7 @@ export default function AuthPage() {
       }
     }
   }
-
+  
   return (
     <main className="flex min-h-screen items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md">
@@ -99,6 +99,7 @@ export default function AuthPage() {
             {error && <p className="text-sm text-red-500">{error}</p>}
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? "Loading..." : isSignUp ? "Sign up" : "Sign in"}
+              
             </Button>
             <Button
               type="button"

@@ -44,4 +44,12 @@ function dbUserToDbUserEntity(user: PrismaUser): User {
     };
 }
 
-export const userRepository = { userList, userCreate };
+async function userUpdateRating(id: string, delta: number): Promise<User> {
+    const user = await prisma.user.update({
+        where: { id },
+        data: { rating: { increment: delta } },
+    });
+    return dbUserToDbUserEntity(user);
+}
+
+export const userRepository = { userList, userCreate, userUpdateRating };
