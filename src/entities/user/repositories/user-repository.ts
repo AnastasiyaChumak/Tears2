@@ -8,6 +8,9 @@ async function userList(): Promise<User[]> {
         include: {
             games: true,
         },
+        orderBy: {
+            rating: "desc",
+        },
     });
     return users.map(dbUserToDbUserEntity);
 }
@@ -26,7 +29,6 @@ async function userCreate(login: string, password: string): Promise<User> {
     const user = await prisma.user.create({
         data: {
             login,
-            email: `${login}@temp.com`,
             rating: 0,
             passwordHash,
         },
@@ -39,7 +41,6 @@ function dbUserToDbUserEntity(user: PrismaUser): User {
     return {
         id: user.id,
         login: user.login,
-        email: user.email,
         rating: user.rating,
     };
 }

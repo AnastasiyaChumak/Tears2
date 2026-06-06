@@ -63,7 +63,7 @@ export default function GamePage() {
                     disabled={won}
                     onKeyDown={(e) => e.key === "Enter" && handleGuess()}
                 />
-                <Button onClick={handleGuess} disabled={won || attempt <= 0}>
+                <Button onClick={handleGuess} disabled={won || attempt === 0}>
                     Confirm
                 </Button>
             </div>
