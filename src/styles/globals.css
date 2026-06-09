@@ -1,10 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@source "../tears/src/**/*.{ts,tsx,js,jsx}";
 
 @custom-variant dark (&:is(.dark *));
-
-@tailwind base;
-@tailwind utilities;
 
 @theme {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,

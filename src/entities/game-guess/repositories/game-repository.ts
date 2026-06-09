@@ -1,6 +1,6 @@
 import { db as prisma } from "~/shared/lib/db";
 import { type Prisma } from "@prisma/client";
-import { type Game, type GameIdle, type Player, type GameFinished, type GameInProgress } from "~/entities/game/domain";
+import { type Game, type GameIdle, type Player, type GameFinished, type GameInProgress } from "~/entities/game-guess/domain";
 
 async function gameList(): Promise<Game[]> {
 

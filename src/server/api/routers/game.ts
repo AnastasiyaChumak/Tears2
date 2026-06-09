@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-import { gameRepository } from "~/entities/game/repositories/game-repository";
+import { gameRepository } from "~/entities/game-guess/repositories/game-repository";
 
 export const gameRouter = createTRPCRouter({
     list: publicProcedure.query(() => {

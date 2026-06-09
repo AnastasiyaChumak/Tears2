@@ -9,7 +9,7 @@ export function GameActionButton() {
     const router = useRouter();
     const createGameMutation = api.game.create.useMutation({
         onSuccess: (game) => {
-            router.push(`/game/${game.id}`);
+            router.push(`/games/guess/${game.id}`);
         },
         onError: (error: { message: string }) => {
             alert(error.message);
@@ -17,7 +17,7 @@ export function GameActionButton() {
     });
 
     const handleCreateGame = () => {
-        createGameMutation.mutate({ name: "New Game", type: "tic-tac-toe" });
+        createGameMutation.mutate({ name: "New Game", type: "guess" });
     }
 
     return (
