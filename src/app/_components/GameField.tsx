@@ -4,9 +4,9 @@ import { Input } from "~/shared/ui/input"
 const GameField = () => {
   return (
     <div>   
-        <h1>Game Field</h1>
+        <h1>Game "Guess the Number"</h1>
         <FieldLabel htmlFor="Type number here:"></FieldLabel>
-        <Input placeholder="Type number here:" />
+        <Input placeholder="Let`s go!" />
     </div>
   )
 }
