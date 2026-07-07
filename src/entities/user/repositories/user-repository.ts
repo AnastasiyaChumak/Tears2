@@ -4,15 +4,15 @@ import { db as prisma } from "~/shared/lib/db";
 import bcrypt from "bcryptjs";
 
 async function userList(): Promise<User[]> {
-    const users = await prisma.user.findMany({
-        include: {
-            games: true,
-        },
-        orderBy: {
-            rating: "desc",
-        },
-    });
-    return users.map(dbUserToDbUserEntity);
+        const users = await prisma.user.findMany({
+            include: {
+                games: true,
+            },
+            orderBy: {
+                rating: "desc",
+            },
+        });
+        return users.map(dbUserToDbUserEntity);
 }
 
 async function userCreate(login: string, password: string): Promise<User> {

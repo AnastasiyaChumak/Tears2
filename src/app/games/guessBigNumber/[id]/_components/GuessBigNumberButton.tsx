@@ -1,15 +1,15 @@
-"use client";
+"use client"
 
-import { Button } from "~/shared/ui/button";
+import { Button } from "~/shared/ui/button"
+import { useRouter } from "next/navigation"
 import { api } from "~/trpc/react";
-import { useRouter } from "next/navigation";
 
-export function GameActionButton() {
-    const utils = api.useUtils();
+export function GuessBigNumberButton() {
+
     const router = useRouter();
     const createGameMutation = api.game.create.useMutation({
         onSuccess: (game) => {
-            router.push(`/games/guess/${game.id}`);
+            router.push(`games/guessBigNumber/${game.id}`);
         },
         onError: (error: { message: string }) => {
             alert(error.message);
@@ -17,14 +17,14 @@ export function GameActionButton() {
     });
 
     const handleCreateGame = () => {
-        createGameMutation.mutate({ name: "New Game", type: "guess" });
+        createGameMutation.mutate({ name: "New game", type: "GuessBigNumber" })
     }
 
     return (
         <Button onClick={handleCreateGame} disabled={createGameMutation.isPending}>
-            {createGameMutation.isPending ? "Creating..." : "Create Game"}
+            Play Guess the Number
         </Button>
     );
 }
 
-export default GameActionButton;
+export default GuessBigNumberButton;
