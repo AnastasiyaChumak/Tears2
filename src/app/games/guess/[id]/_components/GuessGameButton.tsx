@@ -21,7 +21,7 @@ export function GuessGameButton() {
 
     return (
         <Button onClick={handleCreateGame} disabled={createGameMutation.isPending}>
-            {createGameMutation.isPending ? "Creating..." : "Create Game"}
+            {createGameMutation.isPending ? "Creating..." : "Guess Game"}
         </Button>
     );
 }

@@ -22,7 +22,7 @@ export function GuessBigNumberButton() {
 
     return (
         <Button onClick={handleCreateGame} disabled={createGameMutation.isPending}>
-            Play Guess the Number
+            {createGameMutation.isPending ? "Creating..." : "Guess the Big Number"}
         </Button>
     );
 }

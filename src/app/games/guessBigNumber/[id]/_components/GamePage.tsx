@@ -6,7 +6,6 @@ import { Button } from "~/shared/ui/button"
 import { api } from "~/trpc/react"
 import { useRouter } from "next/navigation"
 import confetti from "canvas-confetti"
-import { routerServerGlobal } from "next/dist/server/lib/router-utils/router-server-context"
 
 export default function GamePage() {
     const router = useRouter()
@@ -16,16 +15,12 @@ export default function GamePage() {
     const [won, setWon] = useState(false)
     const [mainMessage, setMainMessage] = useState("")
     const [guessMessage, setGuessMessage] = useState("")
-    const [numberArray, setNumberArray] = useState<any>([])
+    const [numberArray, setNumberArray] = useState<string[]>(["?", "?", "?", "?"])
 
     const updateRating = api.user.updateRating.useMutation();
-    const array: any = []
-
-    for (let i = 0; i < 4; i++) {
-        array[i] = "?"
-    }
 
     const handleGuess = () => {
+        const array: string[] = [...numberArray]
         const randomNumStr = randomNum.toString()
         let guessNumStr = inputValue.toString();
         const value = parseInt(inputValue, 10)
@@ -37,7 +32,7 @@ export default function GamePage() {
 
         for (let i = 0; i < randomNumStr.length; i++) {
             if (randomNumStr[i] === guessNumStr[i]) {
-                array[i] = randomNumStr[i]
+                array[i] = randomNumStr[i]!
             }
         }
         setAttempt(prev => prev - 1)
@@ -65,7 +60,7 @@ export default function GamePage() {
     }
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center gap-4">
+        <main className="flex pt-40 flex-col items-center justify-center gap-4">
             <h1 className="text-2xl font-bold">Guess the number (1111–9999)</h1>
             <div className="flex gap-2">
                 <Input
