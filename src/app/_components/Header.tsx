@@ -3,13 +3,16 @@ import { SignOutButton } from "./SignOutButton"
 import Link from "next/link"
 import { GuessGameButton } from "../games/guess/[id]/_components/GuessGameButton";
 import { GuessBigNumberButton } from "../games/guessBigNumber/[id]/_components/GuessBigNumberButton";
+import { SidebarTrigger } from "~/shared/ui/sidebar"
 
-export default async function Header() {
+export default async function Header({ children }: { children?: React.ReactNode }) {
     const session = await auth()
 
     return (
         <header className="border bg-gray-100 px-8 flex items-center justify-between h-14" >
-            <div className="flex items-center gap-12">
+            <div className="flex items-center gap-10">
+                <SidebarTrigger />
+                {children}
                 <Link href="/">
                     <span className="text-sm font-medium tracking-widest uppercase text-gray-400 hover:text-gray-600 transition-colors">
                         Leaderboard
