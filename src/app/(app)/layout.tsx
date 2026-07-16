@@ -1,6 +1,10 @@
 import "~/styles/globals.css";
+
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
+import { SidebarProvider, SidebarInset, SidebarTrigger } from "~/shared/ui/sidebar";
+import { AppSidebar } from "./_components/AppSidebar";
+import Header from "./_components/Header";
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const runtime = "nodejs"
@@ -22,7 +26,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <SidebarProvider>
+            <AppSidebar />
+            <SidebarInset>
+              <Header />
+              <SidebarTrigger />
+              {children}
+            </SidebarInset>
+          </SidebarProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );
