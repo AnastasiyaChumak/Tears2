@@ -20,7 +20,7 @@ export default async function Header({ children }: { children?: React.ReactNode 
                     <span className="text-sm text-gray-600">
                         <span className="font-light italic text-gray-400">Hello, </span>
                         <span className="font-semibold text-gray-800">
-                            {session.user.name ?? session.user.email}
+                            {session.user.login}
                         </span>
                     </span>
                 )}

@@ -6,6 +6,7 @@ Multi-game-hub just for fun.
 - [Shadcn](https://ui.shadcn.com)
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
+- [Lucide](https://lucide.dev)
 
 # Games:
 

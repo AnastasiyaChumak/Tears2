@@ -21,7 +21,7 @@ async function userCreate(login: string, password: string): Promise<User> {
     });
 
     if (existing) {
-        throw new Error("Login already taken");
+        throw new Error("Login already exists. Choose something oRiGiNaL.");
     }
 
     const passwordHash = await bcrypt.hash(password, 10);

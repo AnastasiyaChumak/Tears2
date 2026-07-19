@@ -19,6 +19,16 @@ export default function GamePage() {
 
     const updateRating = api.user.updateRating.useMutation();
 
+    const handleReset = () => {
+        setRandomNum(Math.floor(Math.random() * (9999 - 1111 + 1)) + 1111)
+        setInputValue("")
+        setWon(false)
+        setAttempt(5)
+        setMainMessage("")
+        setGuessMessage("")
+        setNumberArray(["?", "?", "?", "?"])
+    }
+
     const handleGuess = () => {
         const array: string[] = [...numberArray]
         const randomNumStr = randomNum.toString()
@@ -55,9 +65,11 @@ export default function GamePage() {
         if (attempt <= 1 && array.includes("?")) {
             setWon(false)
             setMainMessage(`You lose. Your number: ${randomNum}`)
+            updateRating.mutate({ delta: -5 });
             return
         }
     }
+
 
     return (
         <main className="flex pt-40 flex-col items-center justify-center gap-4">
@@ -79,6 +91,9 @@ export default function GamePage() {
             {guessMessage && <p className="text-lg">{guessMessage}</p>}
             <Button onClick={() => router.push("/")}>
                 Return to games
+            </Button>
+            <Button className="hover:bg-gray-600" onClick={handleReset} disabled={attempt === 5 && !won}>
+                Reset
             </Button>
         </main>
     )

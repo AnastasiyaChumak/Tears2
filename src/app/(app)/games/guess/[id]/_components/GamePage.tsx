@@ -71,11 +71,9 @@ export default function GamePage() {
             <Button onClick={() => router.push("/")}>
                 Back to games
             </Button>
-            {(attempt < 5) && (
-                <Button className="hover:bg-gray-600" onClick={handleReset}>
-                    Reset
-                </Button>
-            )}
+            <Button className="hover:bg-gray-600" onClick={handleReset} disabled={attempt === 5 && !won}>
+                Reset
+            </Button>
         </main>
     )
 }

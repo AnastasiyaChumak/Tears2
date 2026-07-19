@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronRight, Home, Gamepad2 } from "lucide-react"
+import { ChevronRight, Home, Gamepad2, Grid3x3, Binary, ArrowUp01 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { api } from "~/trpc/react"
@@ -41,6 +41,7 @@ function GuessGameMenuItem() {
     return (
         <SidebarMenuSubItem>
             <SidebarMenuSubButton onClick={handleCreateGame}>
+                <ArrowUp01 />
                 {createGameMutation.isPending ? "Creating..." : "Guess"}
             </SidebarMenuSubButton>
         </SidebarMenuSubItem>
@@ -51,7 +52,7 @@ function GuessBigNumberGameMenuItem() {
     const router = useRouter();
     const createGameMutation = api.game.create.useMutation({
         onSuccess: (game) => {
-            router.push(`games/guessBigNumber/${game.id}`);
+            router.push(`/games/guessBigNumber/${game.id}`);
         },
         onError: (error: { message: string }) => {
             alert(error.message);
@@ -65,7 +66,33 @@ function GuessBigNumberGameMenuItem() {
     return (
         <SidebarMenuSubItem>
             <SidebarMenuSubButton onClick={handleCreateGame}>
+                <Binary />
                 {createGameMutation.isPending ? "Creating..." : "Guess Big Number"}
+            </SidebarMenuSubButton>
+        </SidebarMenuSubItem>
+    )
+}
+
+function TikTacToeGameMenuItem() {
+    const router = useRouter();
+    const createGameMutation = api.game.create.useMutation({
+        onSuccess: (game) => {
+            router.push(`/games/tiktactoe/${game.id}`);
+        },
+        onError: (error: { message: string }) => {
+            alert(error.message);
+        },
+    });
+
+    const handleCreateGame = () => {
+        createGameMutation.mutate({ name: "New game", type: "TikTacToe" })
+    }
+
+    return (
+        <SidebarMenuSubItem>
+            <SidebarMenuSubButton onClick={handleCreateGame}>
+                <Grid3x3 />
+                {createGameMutation.isPending ? "Creating..." : "Tik Tac Toe"}
             </SidebarMenuSubButton>
         </SidebarMenuSubItem>
     )
@@ -101,6 +128,7 @@ export function AppSidebar() {
                                         <SidebarMenuSub>
                                             <GuessGameMenuItem />
                                             <GuessBigNumberGameMenuItem />
+                                            <TikTacToeGameMenuItem />
                                         </SidebarMenuSub>
                                     </CollapsibleContent>
                                 </SidebarMenuItem>
